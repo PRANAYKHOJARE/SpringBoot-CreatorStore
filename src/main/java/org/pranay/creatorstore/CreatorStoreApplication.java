@@ -1,7 +1,6 @@
 package org.pranay.creatorstore;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import io.github.cdimascio.dotenv.DotenvEntry;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,11 +8,16 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CreatorStoreApplication {
 
     public static void main(String[] args) {
-        // configuration of dotenv-java
-        Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
 
-        dotenv.entries().forEach((DotenvEntry entry) -> System.setProperty(entry.getKey(), entry.getValue()));
+        Dotenv dotenv = Dotenv.configure()
+                .ignoreIfMissing()
+                .load();
+
+        dotenv.entries().forEach(entry ->
+                System.setProperty(entry.getKey(), entry.getValue()));
+
+        System.out.println("URL: " + dotenv.get("DATABASE_URL"));
+        System.out.println("USER: " + dotenv.get("DATABASE_USERNAME"));
         SpringApplication.run(CreatorStoreApplication.class, args);
     }
-
 }
