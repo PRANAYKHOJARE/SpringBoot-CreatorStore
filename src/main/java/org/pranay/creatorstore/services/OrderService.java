@@ -7,6 +7,8 @@ import org.pranay.creatorstore.entities.Product;
 import org.pranay.creatorstore.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.pranay.creatorstore.entities.Customer;
+import org.pranay.creatorstore.repository.CustomerRepository;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -17,17 +19,23 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final ProductService productService;
+    private final CustomerRepository customerRepository;
 
-    public OrderService(OrderRepository orderRepository, ProductService productService) {
+    public OrderService(OrderRepository orderRepository,
+                        ProductService productService,
+                        CustomerRepository customerRepository) {
         this.orderRepository = orderRepository;
-        this.productService  = productService;
+        this.productService = productService;
+        this.customerRepository = customerRepository;
     }
 
     @Transactional
     public Order placeOrder(OrderRequestDTO request) {
         Order order = new Order();
-        order.setCustomerName(request.getCustomerName());
-        order.setCustomerEmail(request.getCustomerEmail());
+        Customer customer = customerRepository.findByEmail(request.getCustomerEmail())
+                .orElseThrow(() -> new RuntimeException("Customer not found"));
+
+        order.setCustomer(customer);
         order.setStatus("CONFIRMED");
 
         List<OrderItem> items = new ArrayList<>();
