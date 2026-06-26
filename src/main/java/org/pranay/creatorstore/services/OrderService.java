@@ -116,10 +116,25 @@ public class OrderService {
         order.setOrderItems(items);
         order.setTotalPrice(total);
 
+        System.out.println("========== BEFORE SAVING ORDER ==========");
+        System.out.println("Customer ID: " + customer.getId());
+        System.out.println("Customer Email: " + customer.getEmail());
+        System.out.println("Items Count: " + items.size());
+        System.out.println("Total Price: " + total);
+
         try {
-            return orderRepository.save(order);
+            Order savedOrder = orderRepository.save(order);
+
+            System.out.println("========== ORDER SAVED SUCCESSFULLY ==========");
+            System.out.println("Order ID: " + savedOrder.getId());
+
+            return savedOrder;
+
         } catch (Exception e) {
+
+            System.out.println("========== ORDER SAVE FAILED ==========");
             e.printStackTrace();
+
             throw e;
         }
     }
