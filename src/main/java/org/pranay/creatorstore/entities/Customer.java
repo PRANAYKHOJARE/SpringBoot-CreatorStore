@@ -25,6 +25,7 @@ public class Customer {
     private String email;
 
     // Password is optional because customers are auto-created
+    @JsonIgnore
     @Column(nullable = true)
     private String password;
 
