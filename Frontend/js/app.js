@@ -252,7 +252,7 @@ async function submitOrder() {
       <div class="result-grid">
         <div class="result-item"><span>Order ID</span><strong>#${order.id}</strong></div>
         <div class="result-item"><span>Status</span><span class="badge badge-success">${order.status}</span></div>
-        <div class="result-item"><span>Customer</span><strong>${order.customerName}</strong></div>
+        <div class="result-item"><span>Customer</span><strong>${order.customer?.name || 'N/A'}</strong></div>
         <div class="result-item"><span>Total</span><strong>₹${Number(order.totalPrice).toFixed(2)}</strong></div>
       </div>
       <div style="font-size:12px;color:#a0a09e">Email: ${order.customerEmail}</div>`;
@@ -284,7 +284,7 @@ async function loadOrderHistory() {
     tbody.innerHTML = orders.map(o => `
       <tr>
         <td style="color:#a0a09e">#${o.id}</td>
-        <td style="font-weight:600">${o.customerName}</td>
+        <td style="font-weight:600">${o.customer?.name || 'N/A'}</td>
         <td style="color:#a0a09e">${o.customerEmail}</td>
         <td>${o.orderItems.map(i =>
           `<div style="font-size:12px">${i.product.name} × ${i.quantity}</div>`
