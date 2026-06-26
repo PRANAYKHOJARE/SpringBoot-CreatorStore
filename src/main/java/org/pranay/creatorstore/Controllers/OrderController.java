@@ -24,14 +24,9 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<?> placeOrder(@RequestBody OrderRequestDTO request) {
-        try {
-            Order order = orderService.placeOrder(request);
-            return ResponseEntity.ok(order);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest()
-                    .body(java.util.Map.of("message", e.getMessage()));
-        }
+    public ResponseEntity<Order> placeOrder(@RequestBody OrderRequestDTO request) {
+        Order order = orderService.placeOrder(request);
+        return ResponseEntity.ok(order);
     }
 
     @PatchMapping("/{id}/status")
