@@ -1,20 +1,33 @@
-@media(max-width:992px){
-
-.app{
-
-flex-direction:column;
-
-}
+@media(max-width:1000px){
 
 .sidebar{
 
-width:100%;
-
-flex-direction:row;
-
-overflow:auto;
+width:75px;
 
 }
+
+.logo-sub,
+.logo-text{
+
+display:none;
+
+}
+
+.nav-item{
+
+justify-content:center;
+
+}
+
+.nav-item span{
+
+display:none;
+
+}
+
+}
+
+@media(max-width:768px){
 
 .stats-grid{
 
@@ -30,25 +43,11 @@ flex-direction:column;
 
 .topbar{
 
-padding:20px;
+flex-direction:column;
 
-height:auto;
+gap:15px;
 
-}
-
-}
-
-@media(max-width:768px){
-
-.content{
-
-padding:15px;
-
-}
-
-.card{
-
-padding:18px;
+align-items:flex-start;
 
 }
 
@@ -56,15 +55,7 @@ table{
 
 display:block;
 
-overflow-x:auto;
-
-white-space:nowrap;
-
-}
-
-.logo{
-
-display:none;
+overflow:auto;
 
 }
 
