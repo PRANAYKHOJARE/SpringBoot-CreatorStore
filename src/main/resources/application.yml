@@ -18,3 +18,13 @@ spring:
 
 server:
   port: ${PORT:8080}
+  error:
+    include-message: always
+    include-stacktrace: always
+
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.orm.jdbc.bind: TRACE
+    org.hibernate.engine.jdbc.spi.SqlExceptionHelper: DEBUG
