@@ -33,8 +33,6 @@ public class OrderService {
     @Transactional
     public Order placeOrder(OrderRequestDTO request) {
 
-        Order order = new Order();
-
         Customer customer = customerRepository.findByEmail(request.getCustomerEmail())
                 .orElseGet(() -> {
 
@@ -42,16 +40,15 @@ public class OrderService {
 
                     newCustomer.setName(request.getCustomerName());
                     newCustomer.setEmail(request.getCustomerEmail());
-
-                    // required field
                     newCustomer.setPassword("TEMP_PASSWORD");
-
                     newCustomer.setPhone("");
                     newCustomer.setAddress("");
 
                     return customerRepository.save(newCustomer);
                 });
 
+
+        Order order = new Order();
 
         order.setCustomer(customer);
         order.setCustomerEmail(customer.getEmail());
@@ -66,8 +63,9 @@ public class OrderService {
         for (OrderRequestDTO.OrderItemDTO itemDTO : request.getItems()) {
 
 
-            Product product =
-                    productService.getProductById(itemDTO.getProductId());
+            Product product = productService.getProductById(
+                    itemDTO.getProductId()
+            );
 
 
             if(product.getStockQuantity() < itemDTO.getQuantity()) {
@@ -82,8 +80,6 @@ public class OrderService {
             product.setStockQuantity(
                     product.getStockQuantity() - itemDTO.getQuantity()
             );
-
-
 
 
             productService.updateProduct(
@@ -112,16 +108,17 @@ public class OrderService {
         }
 
 
-        for (OrderItem item : items) {
+        for(OrderItem item : items){
             item.setOrder(order);
         }
+
 
         order.setOrderItems(items);
         order.setTotalPrice(total);
 
+
         return orderRepository.save(order);
     }
-
 
 
     public List<Order> getAllOrders() {
