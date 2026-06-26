@@ -116,8 +116,12 @@ public class OrderService {
         order.setOrderItems(items);
         order.setTotalPrice(total);
 
-
-        return orderRepository.save(order);
+        try {
+            return orderRepository.save(order);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
 
