@@ -149,7 +149,7 @@ Through this project I learned:
 **Pranay Khojare**  
 Aspiring Java Backend Developer
 
-GitHub: :contentReference[oaicite:2]{index=2}
+
 
 ---
 
