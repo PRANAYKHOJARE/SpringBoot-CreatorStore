@@ -33,13 +33,13 @@ public class OrderController {
         }
     }
 
-//    @PatchMapping("/{id}/status")
-//    public ResponseEntity<?> updateStatus(@PathVariable Long id, @RequestBody java.util.Map<String, String> body) {
-//        try {
-//            Order order = orderService.updateStatus(id, body.get("status"));
-//            return ResponseEntity.ok(order);
-//        } catch (RuntimeException e) {
-//            return ResponseEntity.badRequest().body(java.util.Map.of("message", e.getMessage()));
-//        }
-//    }
+   @PatchMapping("/{id}/status")
+  public ResponseEntity<?> updateStatus(@PathVariable Long id, @RequestBody java.util.Map<String, String> body) {
+      try {
+        Order order = orderService.updateStatus(id, body.get("status"));
+            return ResponseEntity.ok(order);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(java.util.Map.of("message", e.getMessage()));
+        }
+   }
 }
