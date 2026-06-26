@@ -37,9 +37,14 @@ public class OrderService {
                     Customer newCustomer = new Customer();
                     newCustomer.setName(request.getCustomerName());
                     newCustomer.setEmail(request.getCustomerEmail());
+
+                    // REQUIRED
                     newCustomer.setPassword("TEMP_PASSWORD");
+
+                    // Optional
                     newCustomer.setPhone("");
                     newCustomer.setAddress("");
+
                     return customerRepository.save(newCustomer);
                 });
 
