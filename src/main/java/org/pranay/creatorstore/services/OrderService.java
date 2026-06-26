@@ -112,9 +112,12 @@ public class OrderService {
         }
 
 
+        for (OrderItem item : items) {
+            item.setOrder(order);
+        }
+
         order.setOrderItems(items);
         order.setTotalPrice(total);
-
 
         return orderRepository.save(order);
     }
