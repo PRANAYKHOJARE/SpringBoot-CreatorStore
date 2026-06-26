@@ -27,6 +27,9 @@ public class Order {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
+    @Column(name = "customer_email", nullable = false)
+    private String customerEmail;
+
     @Column(nullable = false)
     private String status;
 

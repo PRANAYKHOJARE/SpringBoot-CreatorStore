@@ -54,6 +54,7 @@ public class OrderService {
 
 
         order.setCustomer(customer);
+        order.setCustomerEmail(customer.getEmail());
         order.setStatus("CONFIRMED");
 
 
@@ -81,6 +82,8 @@ public class OrderService {
             product.setStockQuantity(
                     product.getStockQuantity() - itemDTO.getQuantity()
             );
+
+
 
 
             productService.updateProduct(
