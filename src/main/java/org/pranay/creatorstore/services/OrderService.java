@@ -66,7 +66,7 @@ public class OrderService {
 
             // Deduct stock
             product.setStockQuantity(product.getStockQuantity() - itemDTO.getQuantity());
-            productService.createProduct(product); // save updated stock
+            productService.updateProduct(product.getId(), product); // save updated stock
 
             OrderItem item = OrderItem.builder()
                     .product(product)
@@ -79,8 +79,14 @@ public class OrderService {
             total = total.add(product.getPrice().multiply(BigDecimal.valueOf(itemDTO.getQuantity())));
         }
 
+
+        for (OrderItem item : items) {
+            item.setOrder(order);
+        }
+
         order.setOrderItems(items);
         order.setTotalPrice(total);
+
         return orderRepository.save(order);
     }
     public List<Order> getAllOrders() {
