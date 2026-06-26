@@ -2,7 +2,7 @@ let allProducts = [];
 let orderItemCount = 0;
 
 function getBase() {
-  return document.getElementById('base-url').value.replace(/\/$/, '');
+  return "https://springboot-creatorstore-production.up.railway.app";
 }
 
 function showToast(msg, type = 'success') {
