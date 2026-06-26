@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CreatorStore Admin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="app">
+    <div class="sidebar">
+        <div class="logo">
+            <div class="logo-text">CreatorStore</div>
+            <div class="logo-sub">Admin panel</div>
+        </div>
+        <div class="nav-item active" onclick="showPage('dashboard', this)">
+            <i class="ti ti-layout-dashboard"></i> Dashboard
+        </div>
+        <div class="nav-item" onclick="showPage('products', this)">
+            <i class="ti ti-package"></i> Products
+        </div>
+        <div class="nav-item" onclick="showPage('orders', this)">
+            <i class="ti ti-shopping-cart"></i> Place order
+        </div>
+        <div class="nav-item" onclick="showPage('history', this)">
+            <i class="ti ti-clipboard-list"></i> Order history
+        </div>
+    </div>
+
+    <div class="main">
+        <div class="topbar">
+            <div>
+                <div class="topbar-title" id="page-title">Dashboard</div>
+                <div class="topbar-sub" id="page-sub">Overview of your store</div>
+            </div>
+            <div class="url-wrap">
+                <span>API base URL:</span>
+                <input id="base-url" value="http://localhost:8080" placeholder="http://localhost:8080" />
+            </div>
+        </div>
+
+        <div class="content">
+
+            <!-- DASHBOARD -->
+            <div id="page-dashboard" class="page active">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Total products</div>
+                        <div class="stat-val blue" id="stat-total">—</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">In stock</div>
+                        <div class="stat-val green" id="stat-instock">—</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Out of stock</div>
+                        <div class="stat-val red" id="stat-oos">—</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">All products</span>
+                        <button class="btn btn-sm" onclick="loadDashboard()">
+                            <i class="ti ti-refresh"></i> Refresh
+                        </button>
+                    </div>
+                    <table>
+                        <thead>
+                        <tr><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th></tr>
+                        </thead>
+                        <tbody id="dash-table">
+                        <tr><td colspan="5" class="empty">Loading…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- PRODUCTS -->
+            <div id="page-products" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title" id="form-title">Add a product</span>
+                        <button class="btn btn-sm" id="cancel-btn" onclick="cancelEdit()" style="display:none">
+                            <i class="ti ti-x"></i> Cancel edit
+                        </button>
+                    </div>
+                    <input type="hidden" id="edit-id" />
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Name *</label>
+                            <input id="p-name" placeholder="Product name" />
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <input id="p-cat" placeholder="e.g. Merch, Courses" />
+                        </div>
+                    </div>
+                    <div class="form-row single">
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea id="p-desc" placeholder="Short description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Price *</label>
+                            <input id="p-price" type="number" min="0.01" step="0.01" placeholder="0.00" />
+                        </div>
+                        <div class="form-group">
+                            <label>Stock quantity *</label>
+                            <input id="p-stock" type="number" min="0" step="1" placeholder="0" />
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="submitProduct()">
+                        <i class="ti ti-check"></i> <span id="submit-label">Add product</span>
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Manage products</span>
+                        <button class="btn btn-sm" onclick="loadProducts()">
+                            <i class="ti ti-refresh"></i> Refresh
+                        </button>
+                    </div>
+                    <table>
+                        <thead>
+                        <tr><th>ID</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr>
+                        </thead>
+                        <tbody id="products-table">
+                        <tr><td colspan="6" class="empty">Loading…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ORDERS -->
+            <div id="page-orders" class="page">
+                <div class="card">
+                    <div class="card-header"><span class="card-title">Customer details</span></div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Customer name *</label>
+                            <input id="o-name" placeholder="Jane Doe" />
+                        </div>
+                        <div class="form-group">
+                            <label>Customer email *</label>
+                            <input id="o-email" type="email" placeholder="jane@example.com" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Order items</span>
+                        <button class="btn btn-sm" onclick="addOrderItem()">
+                            <i class="ti ti-plus"></i> Add item
+                        </button>
+                    </div>
+                    <div id="order-items"></div>
+                    <div class="order-total-row">
+                        <span>Estimated total</span>
+                        <span id="order-total">₹0.00</span>
+                    </div>
+                </div>
+
+                <div style="display:flex;gap:8px;margin-bottom:1rem">
+                    <button class="btn btn-primary" onclick="submitOrder()">
+                        <i class="ti ti-shopping-bag"></i> Place order
+                    </button>
+                    <button class="btn" onclick="clearOrder()">
+                        <i class="ti ti-trash"></i> Clear
+                    </button>
+                </div>
+
+                <div id="order-result" class="card" style="display:none">
+                    <div class="card-header">
+                        <span class="card-title">Order confirmed</span>
+                        <span class="badge badge-success"><i class="ti ti-check" style="font-size:11px"></i> Confirmed</span>
+                    </div>
+                    <div id="order-result-body"></div>
+                </div>
+            </div>
+            <!-- ORDER HISTORY -->
+            <div id="page-history" class="page">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-title">Order history</span>
+                        <button class="btn btn-sm" onclick="loadOrderHistory()">
+                            <i class="ti ti-refresh"></i> Refresh
+                        </button>
+                    </div>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Customer</th>
+                            <th>Email</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                        </tr>
+                        </thead>
+                        <tbody id="history-table">
+                        <tr><td colspan="7" class="empty">Loading…</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="js/app.js"></script>
+</body>
+</html>

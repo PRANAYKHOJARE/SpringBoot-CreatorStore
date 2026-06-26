@@ -1,70 +1,79 @@
 package org.pranay.creatorstore.services;
 
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import org.pranay.creatorstore.dto.OrderItemRequest;
-import org.pranay.creatorstore.dto.OrderRequest;
+import org.pranay.creatorstore.dto.OrderRequestDTO;
 import org.pranay.creatorstore.entities.Order;
 import org.pranay.creatorstore.entities.OrderItem;
 import org.pranay.creatorstore.entities.Product;
 import org.pranay.creatorstore.repository.OrderRepository;
-import org.pranay.creatorstore.repository.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class OrderService {
+
     private final OrderRepository orderRepository;
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
-    @Transactional
-    public Order createOrder(OrderRequest orderRequest){
-        List<OrderItem> orderItems = new ArrayList<>();
-        BigDecimal totalPrice = BigDecimal.ZERO;
-
-        Order order = new Order();
-        order.setCustomerName(orderRequest.getCustomerName());
-        order.setCustomerEmail(orderRequest.getCustomerEmail());
-        order.setStatus("CONFIRMED");
-
-        for (OrderItemRequest itemRequest : orderRequest.getItems()){
-            Product product = productRepository.findById(itemRequest.getProductId()).orElseThrow(() -> new RuntimeException("product not found with id" + itemRequest.getProductId()));
-
-            // check the product stock
-            if (product.getStockQuantity() < itemRequest.getQuantity()){
-                throw new RuntimeException("Not enough stock for this product" + itemRequest.getProductId());
-            }
-
-            //calculate total price
-            BigDecimal priceOfItem = product.getPrice().multiply(BigDecimal.valueOf(itemRequest.getQuantity()));
-
-            totalPrice = totalPrice.add(priceOfItem);
-
-            //update product table latest stock quantity
-            product.setStockQuantity(
-                    product.getStockQuantity() - itemRequest.getQuantity()
-        );
-            productRepository.save(product);
-
-            //Builder pattern to make object
-            OrderItem orderItem = OrderItem.builder()
-                    .order(order)
-                    .product(product)
-                    .quantity(itemRequest.getQuantity())
-                    .priceAtPurchase(product.getPrice())
-                    .build();
-
-            orderItems.add(orderItem);
-        }
-
-        order.setTotalPrice(totalPrice);
-        order.setOrderItems(orderItems);
-
-        return orderRepository.save(order);
+    public OrderService(OrderRepository orderRepository, ProductService productService) {
+        this.orderRepository = orderRepository;
+        this.productService  = productService;
     }
 
+    @Transactional
+    public Order placeOrder(OrderRequestDTO request) {
+        Order order = new Order();
+        order.setCustomerName(request.getCustomerName());
+        order.setCustomerEmail(request.getCustomerEmail());
+        order.setStatus("CONFIRMED");
+
+        List<OrderItem> items = new ArrayList<>();
+        BigDecimal total = BigDecimal.ZERO;
+
+        for (OrderRequestDTO.OrderItemDTO itemDTO : request.getItems()) {
+            Product product = productService.getProductById(itemDTO.getProductId());
+
+            if (product.getStockQuantity() < itemDTO.getQuantity()) {
+                throw new RuntimeException(
+                        "Insufficient stock for \"" + product.getName() + "\". " +
+                                "Available: " + product.getStockQuantity()
+                );
+            }
+
+            // Deduct stock
+            product.setStockQuantity(product.getStockQuantity() - itemDTO.getQuantity());
+            productService.createProduct(product); // save updated stock
+
+            OrderItem item = OrderItem.builder()
+                    .product(product)
+                    .quantity(itemDTO.getQuantity())
+                    .priceAtPurchase(product.getPrice())
+                    .order(order)
+                    .build();
+
+            items.add(item);
+            total = total.add(product.getPrice().multiply(BigDecimal.valueOf(itemDTO.getQuantity())));
+        }
+
+        order.setOrderItems(items);
+        order.setTotalPrice(total);
+        return orderRepository.save(order);
+    }
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+    @Transactional
+    public Order updateStatus(Long id, String status) {
+        List<String> allowed = List.of("CONFIRMED", "PROCESSING", "SHIPPED", "DELIVERED", "CANCELLED");
+        if (!allowed.contains(status)) {
+            throw new RuntimeException("Invalid status: " + status);
+        }
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order not found with id: " + id));
+        order.setStatus(status);
+        return orderRepository.save(order);
+    }
 }
