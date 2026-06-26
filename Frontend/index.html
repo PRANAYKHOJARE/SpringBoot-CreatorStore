@@ -38,13 +38,18 @@
 
     <div class="main">
         <div class="topbar">
+
+            <i class="ti ti-menu-2 menu-toggle" onclick="toggleSidebar()"></i>
+
             <div>
                 <div class="topbar-title" id="page-title">Dashboard</div>
                 <div class="topbar-sub" id="page-sub">Overview of your store</div>
             </div>
+
             <div class="url-wrap">
                 <span>Backend Connected ✅</span>
             </div>
+
         </div>
 
         <div class="content">
@@ -72,6 +77,7 @@
                             <i class="ti ti-refresh"></i> Refresh
                         </button>
                     </div>
+                    <div class="table-wrapper">
                     <table>
                         <thead>
                         <tr><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th></tr>
@@ -80,6 +86,7 @@
                         <tr><td colspan="5" class="empty">Loading…</td></tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
 
@@ -131,14 +138,25 @@
                             <i class="ti ti-refresh"></i> Refresh
                         </button>
                     </div>
-                    <table>
-                        <thead>
-                        <tr><th>ID</th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th></tr>
-                        </thead>
-                        <tbody id="products-table">
-                        <tr><td colspan="6" class="empty">Loading…</td></tr>
-                        </tbody>
-                    </table>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody id="products-table">
+                            <tr>
+                                <td colspan="6" class="empty">Loading…</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
@@ -172,7 +190,7 @@
                     </div>
                 </div>
 
-                <div style="display:flex;gap:8px;margin-bottom:1rem">
+                <div class="action-buttons">
                     <button class="btn btn-primary" onclick="submitOrder()">
                         <i class="ti ti-shopping-bag"></i> Place order
                     </button>
@@ -198,22 +216,26 @@
                             <i class="ti ti-refresh"></i> Refresh
                         </button>
                     </div>
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>Order ID</th>
-                            <th>Customer</th>
-                            <th>Email</th>
-                            <th>Items</th>
-                            <th>Total</th>
-                            <th>Status</th>
-                            <th>Date</th>
-                        </tr>
-                        </thead>
-                        <tbody id="history-table">
-                        <tr><td colspan="7" class="empty">Loading…</td></tr>
-                        </tbody>
-                    </table>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Email</th>
+                                <th>Items</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                            </tr>
+                            </thead>
+                            <tbody id="history-table">
+                            <tr>
+                                <td colspan="7" class="empty">Loading…</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 

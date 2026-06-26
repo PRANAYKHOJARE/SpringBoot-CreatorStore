@@ -13,24 +13,32 @@ function showToast(msg, type = 'success') {
 }
 
 function showPage(page, el) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-  document.getElementById('page-' + page).classList.add('active');
-  el.classList.add('active');
-  const titles = {
-    dashboard: ['Dashboard', 'Overview of your store'],
-    products:  ['Products', 'Add, edit, and delete products'],
-    orders:    ['Place order', 'Create a new customer order'],
-    history:   ['Order history', 'All past customer orders']   // ✅ ADDED
-  };
-  document.getElementById('page-title').textContent = titles[page][0];
-  document.getElementById('page-sub').textContent   = titles[page][1];
-  if (page === 'dashboard') loadDashboard();
-  if (page === 'products')  loadProducts();
-  if (page === 'orders')    initOrderPage();
-  if (page === 'history')   loadOrderHistory();  // ✅ ADDED
-}
 
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+    document.getElementById('page-' + page).classList.add('active');
+    el.classList.add('active');
+
+    const titles = {
+        dashboard:['Dashboard','Overview of your store'],
+        products:['Products','Add, edit, and delete products'],
+        orders:['Place order','Create a new customer order'],
+        history:['Order history','All past customer orders']
+    };
+
+    document.getElementById('page-title').textContent=titles[page][0];
+    document.getElementById('page-sub').textContent=titles[page][1];
+
+    if(page==="dashboard") loadDashboard();
+    if(page==="products") loadProducts();
+    if(page==="orders") initOrderPage();
+    if(page==="history") loadOrderHistory();
+
+    if(window.innerWidth<=900){
+        document.querySelector(".sidebar").classList.remove("active");
+    }
+}
 async function fetchProducts() {
   const r = await fetch(getBase() + '/api/products');
   if (!r.ok) throw new Error('Failed');
@@ -328,3 +336,15 @@ async function updateOrderStatus(id, status) {
 
 // Init
 loadDashboard();
+
+function toggleSidebar(){
+    document.querySelector(".sidebar").classList.toggle("active");
+}
+
+window.addEventListener("resize",function(){
+
+    if(window.innerWidth>900){
+        document.querySelector(".sidebar").classList.remove("active");
+    }
+
+});

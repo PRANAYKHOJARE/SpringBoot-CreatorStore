@@ -27,6 +27,7 @@ body{
 font-family:Inter,Segoe UI,sans-serif;
 background:var(--bg);
 color:var(--text);
+overflow-x:hidden;
 }
 
 .app{
@@ -91,16 +92,18 @@ flex-direction:column;
 }
 
 .topbar{
-height:90px;
+min-height:90px;
 background:#fff;
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:0 35px;
+padding:20px 35px;
 border-bottom:1px solid var(--border);
 position:sticky;
 top:0;
 z-index:100;
+flex-wrap:wrap;
+gap:15px;
 }
 
 .topbar-title{
@@ -139,9 +142,8 @@ display:block;
 
 .stats-grid{
 display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:25px;
-margin-bottom:25px;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
 }
 
 .stat-card{
@@ -264,11 +266,68 @@ color:#fff;
 background:#0f5d99;
 }
 
-/* TABLE */
+.action-buttons{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:20px;
+}
+
+.action-row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+
+@media(max-width:900px){
+
+.topbar{
+    height:auto;
+    padding:15px;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.topbar-title{
+    font-size:22px;
+}
+
+.url-wrap{
+    width:100%;
+    text-align:center;
+}
+
+.card{
+    padding:18px;
+}
+
+.btn{
+    width:100%;
+}
+
+.order-total-row{
+    flex-direction:column;
+    gap:10px;
+}
 
 table{
-width:100%;
-border-collapse:collapse;
+    min-width:700px;
+}
+
+}
+
+/* TABLE */
+
+.table-wrapper{
+    width:100%;
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    min-width:700px;
+    border-collapse:collapse;
 }
 
 th{
@@ -349,4 +408,39 @@ display:none;
 text-align:center;
 padding:50px;
 color:#999;
+}
+
+.menu-toggle{
+    display:none;
+    font-size:28px;
+    cursor:pointer;
+}
+
+@media(max-width:900px){
+
+.sidebar{
+    position:fixed;
+    left:-260px;
+    top:0;
+    width:250px;
+    height:100vh;
+    z-index:1000;
+    transition:.3s;
+}
+
+.sidebar.active{
+    left:0;
+}
+
+.main{
+    width:100%;
+}
+
+.menu-toggle{
+    display:block;
+}
+
+.content{
+    padding:18px;
+}
 }
