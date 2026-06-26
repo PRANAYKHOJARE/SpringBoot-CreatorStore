@@ -1,62 +1,40 @@
-@media(max-width:1000px){
+@media(max-width:992px){
 
 .sidebar{
-
-width:75px;
-
+width:70px;
 }
 
 .logo-sub,
 .logo-text{
-
 display:none;
-
 }
 
 .nav-item{
-
 justify-content:center;
-
 }
 
 .nav-item span{
-
 display:none;
-
 }
-
-}
-
-@media(max-width:768px){
 
 .stats-grid{
-
 grid-template-columns:1fr;
-
 }
 
 .form-row{
+grid-template-columns:1fr;
+}
 
-flex-direction:column;
-
+.order-item-row{
+grid-template-columns:1fr;
 }
 
 .topbar{
-
-flex-direction:column;
-
-gap:15px;
-
-align-items:flex-start;
-
+padding:20px;
 }
 
-table{
-
-display:block;
-
-overflow:auto;
-
+.content{
+padding:20px;
 }
 
 }
