@@ -24,7 +24,8 @@ public class Customer {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    // Password is optional because customers are auto-created
+    @Column(nullable = true)
     private String password;
 
     private String phone;

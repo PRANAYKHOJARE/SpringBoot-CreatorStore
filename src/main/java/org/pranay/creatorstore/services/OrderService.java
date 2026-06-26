@@ -33,7 +33,15 @@ public class OrderService {
     public Order placeOrder(OrderRequestDTO request) {
         Order order = new Order();
         Customer customer = customerRepository.findByEmail(request.getCustomerEmail())
-                .orElseThrow(() -> new RuntimeException("Customer not found"));
+                .orElseGet(() -> {
+                    Customer newCustomer = new Customer();
+                    newCustomer.setName(request.getCustomerName());
+                    newCustomer.setEmail(request.getCustomerEmail());
+                    newCustomer.setPassword("TEMP_PASSWORD");
+                    newCustomer.setPhone("");
+                    newCustomer.setAddress("");
+                    return customerRepository.save(newCustomer);
+                });
 
         order.setCustomer(customer);
         order.setStatus("CONFIRMED");
