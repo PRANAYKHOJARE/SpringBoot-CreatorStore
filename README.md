@@ -8,8 +8,8 @@ This is my **first Spring Boot project**, where I built a complete store managem
 
 ## 🚀 Live Demo
 
-🌐 Frontend: :contentReference[oaicite:0]{index=0}  
-⚙️ Backend API: :contentReference[oaicite:1]{index=1}
+🌐 Frontend: : https://spring-boot-creator-store.vercel.app/ 
+⚙️ Backend API: : https://springboot-creatorstore-production.up.railway.app/
 
 ---
 
