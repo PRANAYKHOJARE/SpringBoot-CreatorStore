@@ -24,18 +24,22 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Order> placeOrder(@RequestBody OrderRequestDTO request) {
-        Order order = orderService.placeOrder(request);
-        return ResponseEntity.ok(order);
-    }
-
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<?> updateStatus(@PathVariable Long id, @RequestBody java.util.Map<String, String> body) {
+    public ResponseEntity<?> placeOrder(@RequestBody OrderRequestDTO request) {
         try {
-            Order order = orderService.updateStatus(id, body.get("status"));
-            return ResponseEntity.ok(order);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(java.util.Map.of("message", e.getMessage()));
+            return ResponseEntity.ok(orderService.placeOrder(request));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(500).body(e.getMessage());
         }
     }
+
+//    @PatchMapping("/{id}/status")
+//    public ResponseEntity<?> updateStatus(@PathVariable Long id, @RequestBody java.util.Map<String, String> body) {
+//        try {
+//            Order order = orderService.updateStatus(id, body.get("status"));
+//            return ResponseEntity.ok(order);
+//        } catch (RuntimeException e) {
+//            return ResponseEntity.badRequest().body(java.util.Map.of("message", e.getMessage()));
+//        }
+//    }
 }
