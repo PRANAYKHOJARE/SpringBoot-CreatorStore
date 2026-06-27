@@ -2,18 +2,21 @@
 
 ![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.x-brightgreen?style=for-the-badge)
-![MySQL](https://img.shields.io/badge/MySQL-Database-blue?style=for-the-badge)
-![Maven](https://img.shields.io/badge/Maven-Build-red?style=for-the-badge)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Database-336791?style=for-the-badge)
+![Supabase](https://img.shields.io/badge/Supabase-Backend-3ECF8E?style=for-the-badge)
+![Railway](https://img.shields.io/badge/Railway-Deployment-0B0D0E?style=for-the-badge)
+![Vercel](https://img.shields.io/badge/Vercel-Frontend-black?style=for-the-badge)
 
 </p>
 
+
 # 🛒 CreatorStore
 
-A **Full-Stack E-Commerce Store Management System** built using **Spring Boot, Spring Data JPA, MySQL, and Vanilla JavaScript**.
+A **Full-Stack E-Commerce Store Management System** built using **Spring Boot, Spring Data JPA, Hibernate, PostgreSQL, Supabase, and Vanilla JavaScript**.
 
 CreatorStore enables administrators to manage products, maintain inventory, process customer orders, and track delivery status through a clean and responsive admin dashboard.
 
-This project helped me gain practical experience with **REST APIs, JPA, Hibernate, MySQL, deployment, and full-stack development.**
+This project helped me gain practical experience with **REST APIs, Spring Boot, JPA, Hibernate, PostgreSQL, Supabase, deployment, and full-stack development.**
 
 ---
 
@@ -91,25 +94,30 @@ Delivered
 
 ## Backend
 
-* Java 21
-* Spring Boot
-* Spring Web
-* Spring Data JPA
-* Hibernate
-* MySQL
-* Maven
+- Java 21
+- Spring Boot
+- Spring Web
+- Spring Data JPA
+- Hibernate
+- REST APIs
+- Maven
+
+## Database
+
+- PostgreSQL
+- Supabase
 
 ## Frontend
 
-* HTML5
-* CSS3
-* JavaScript (Vanilla)
+- HTML5
+- CSS3
+- JavaScript (Vanilla)
 
 ## Deployment
 
-* Railway
-* Vercel
-* MySQL
+- Railway (Backend)
+- Vercel (Frontend)
+- Supabase (Database)
 
 ---
 
@@ -184,8 +192,8 @@ mvn spring-boot:run
 Update your `application.properties`.
 
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/creatorstore
-spring.datasource.username=root
+spring.datasource.url=jdbc:postgresql://localhost:5432/creatorstore
+spring.datasource.username=postgres
 spring.datasource.password=your_password
 ```
 
@@ -195,7 +203,7 @@ spring.datasource.password=your_password
 
 * Fixed Hibernate Lazy Loading Exception
 * Resolved CORS Issues
-* Connected Railway with MySQL
+* Connected Railway with PostgreSQL (Supabase)
 * Solved JSON Serialization Problems
 * Managed Frontend Deployment on Vercel
 * Implemented Automatic Inventory Updates
@@ -207,7 +215,7 @@ spring.datasource.password=your_password
 * Building REST APIs using Spring Boot
 * Spring Data JPA & Hibernate
 * Entity Relationships
-* MySQL Integration
+* PostgreSQL Integration with Supabase
 * Frontend & Backend Communication
 * Deployment on Railway & Vercel
 * Debugging Production Issues
